@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
+    <title>KGGram</title>
     <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
@@ -12,8 +12,8 @@
 
   <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="https://bulma.io">
-      <img src="{% static 'img/logo.png' %}" width="40" height="50">
+    <a class="navbar-item" href="{% url 'index' %}">
+      <img src="{% static 'img/logo.png' %}" width="50" height="100">
     </a>
 
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -27,7 +27,7 @@
     <div class="navbar-start">
       <a href="{% url 'index' %}" class="navbar-item">
         <i class="material-icons md-dark">home</i>
-        Home
+        KGGram
       </a>
 
       <a class="navbar-item">
