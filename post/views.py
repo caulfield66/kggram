@@ -1,8 +1,9 @@
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.shortcuts import render
-
 from django.contrib.auth.decorators import login_required
 from django.template import loader
-from django
+
 from post.models import Post, Stream
 
 
@@ -22,3 +23,4 @@ def index(request):
     context = {
         'post_items': post_items,
     }
+    return HttpResponse(template.render(context, request))
