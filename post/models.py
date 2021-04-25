@@ -14,24 +14,20 @@ class Tag(models.Model):
     title = models.CharField(max_length=75, verbose_name='Tag')
     slug = models.SlugField(null=False, unique=True)
 
-    class Tag(models.Model):
-        title = models.CharField(max_length=75, verbose_name='Tag')
-        slug = models.SlugField(null=False, unique=True)
+    class Meta:
+        verbose_name = 'Tag'
+        verbose_name_plural = 'Tags'
 
-        class Meta:
-            verbose_name = 'Tag'
-            verbose_name_plural = 'Tags'
+    def get_absolute_url(self):
+        return reverse('tags', args=[self.slug])
 
-        def get_absolute_url(self):
-            return reverse('tags', args=[self.slug])
+    def __str__(self):
+        return self.title
 
-        def __str__(self):
-            return self.title
-
-        def save(self, *args, **kwargs):
-            if not self.slug:
-                self.slug = slugify(self.title)
-            return super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
 
 
 class Post(models.Model):
@@ -41,7 +37,7 @@ class Post(models.Model):
     posted = models.DateTimeField(auto_now_add=True)
     tags = models.ManyToManyField(Tag, related_name='tags')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    likes = models.IntegerField()
+    likes = models.IntegerField(default=0)
 
     def get_absolute_url(self):
         return reverse('postdetails', args=[str(self.id)])
@@ -66,3 +62,4 @@ class Stream(models.Model):
             stream.save()
 
 post_save.connect(Stream.add_post, sender=Post)
+
