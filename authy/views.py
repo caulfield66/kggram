@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 
 from authy.models import Profile
-# from post.models import Post, Follow, Stream
+from post.models import Post, Follow, Stream
 from django.db import transaction
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
@@ -45,12 +45,12 @@ def UserProfile(request, username):
 
 	context = {
 		'posts': posts_paginator,
-		'profile':profile,
-		'following_count':following_count,
-		'followers_count':followers_count,
-		'posts_count':posts_count,
-		'follow_status':follow_status,
-		'url_name':url_name,
+		'profile': profile,
+		'following_count': following_count,
+		'followers_count': followers_count,
+		'posts_count': posts_count,
+		'follow_status': follow_status,
+		'url_name': url_name,
 	}
 
 	return HttpResponse(template.render(context, request))
@@ -67,7 +67,7 @@ def UserProfileFavorites(request, username):
 	followers_count = Follow.objects.filter(following=user).count()
 
 	#Pagination
-	paginator = Paginator(posts, 8)
+	paginator = Paginator(posts, 6)
 	page_number = request.GET.get('page')
 	posts_paginator = paginator.get_page(page_number)
 
