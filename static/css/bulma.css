@@ -2313,6 +2313,11 @@ div.icon-text {
   width: 128px;
 }
 
+.image.is-256x256 {
+  height: 256px;
+  width: 256px;
+}
+
 .notification {
   background-color: whitesmoke;
   border-radius: 4px;
