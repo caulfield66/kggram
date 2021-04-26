@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.template import loader
 from django.urls import reverse
 
+from comment.forms import CommentForm
+from comment.models import Comment
 from post.models import Post, Stream, Tag, Likes
 from authy.models import Profile
 from post.forms import NewPostForm
@@ -31,7 +33,24 @@ def index(request):
 @login_required
 def PostDetails(request, post_id):
     post = get_object_or_404(Post, id=post_id)
+    user = request.user
     favorited = False
+
+    # Comment
+    comments = Comment.objects.filter(post=post).order_by('date')
+
+    # Comment form
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.user = user
+            comment.save()
+            return HttpResponseRedirect(reverse('postdetails', args=[post_id]))
+    else:
+        form = CommentForm()
+
 
     if request.user.is_authenticated:
         profile = Profile.objects.get(user=request.user)
@@ -41,7 +60,9 @@ def PostDetails(request, post_id):
     template = loader.get_template('post_detail.html')
     context = {
         'post': post,
-        'favorited': favorited
+        'favorited': favorited,
+        'form': form,
+        'comments': comments
     }
     return HttpResponse(template.render(context, request))
 

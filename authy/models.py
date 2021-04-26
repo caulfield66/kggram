@@ -29,6 +29,14 @@ class Profile(models.Model):
     created = models.DateField(auto_now_add=True)
     favorites = models.ManyToManyField(Post)
     picture = models.ImageField(upload_to='user_directory_path', blank=True, null=True, verbose_name='Picture')
+    # is_staff = models.BooleanField(default=False)
+    # is_superuser = models.BooleanField(default=False)
+
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
+
+    def has_module_perms(self, app_label):
+        return self.is_staff or self.is_superuser
 
 
 def create_user_profile(sender, instance, created, **kwargs):
