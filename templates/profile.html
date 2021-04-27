@@ -52,6 +52,8 @@
   </div>
 
 </nav>
+           <section class="section">
+    <div class="container">
 
         <p class="subtitle is-5">{% if profile.profile_info  %}{{ profile.profile_info }}{% endif %}</p>
 
@@ -59,12 +61,12 @@
         <a href="{% url 'edit-profile' %}" class="button">Edit Profile</a>
           {% endif %}
       </div>
-    </article>
+
+
     </div>
   </section>
 
-  <section class="section">
-    <div class="container">
+
 
  <div class="tabs is-centered">
   <ul>
@@ -77,29 +79,31 @@
   </ul>
 </div>
 
+
       <div class="columns is-mobile is-multiline is-centered">
-
-
-      {% for post in posts %}
+    {% for post in posts %}
         <div class="column is-one-quarter">
           <div class="box">
-    <div class="media-left">
-      <figure class="image is-256x256">
-        <a href="{{ post.get_absolute_url }}"><img src="{{ post.picture.url }}" alt="Image"></a>
-      </figure>
-    </div>
-</div>
-            {% empty %}
-            <br>
-            <h3 class="title is-3"> You don't have any posts</h3>
-          {% endfor %}
-
-       </div>
+            <figure class="image is-256x256">
+            <a href="{{ post.get_absolute_url }}"><img src="{{ post.picture.url }}" alt="Image"></a>
+            </figure>
+         </div>
       </div>
-  </div>
+            {% endfor %}
+    </div>
 
-    </div>
-    </div>
-  </section>
+ <div class="level-item has-text-centered">
+<div class="pagination">
+    {% if posts.has_previous %}
+      <a href="?page={{ posts.previous_page_number }}">Предыдущая страница</a>
+    {% endif %}
+    <p> Страница:{{ posts.number }} </p>
+    <br>
+    {% if posts.has_next %}
+      <a href="?page={{ posts.next_page_number }}"> Следующая страница</a>
+    {% endif %}
+  </div>
+</div>
+
 
 {% endblock %}

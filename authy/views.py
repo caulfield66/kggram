@@ -12,20 +12,23 @@ from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from django.urls import resolve
 
 
 # Create your views here.
-@permission_required
+# @permission_required
 def UserProfile(request, username):
     username = get_object_or_404(User, username=username)
     profile = Profile.objects.get(user=username)
     url_name = resolve(request.path).url_name
 
+
     if url_name == 'profile':
         posts = Post.objects.filter(user=username).order_by('-posted')
+
+
 
     else:
         posts = profile.favorites.all()
@@ -39,9 +42,14 @@ def UserProfile(request, username):
     follow_status = Follow.objects.filter(following=username, follower=request.user).exists()
 
     # Pagination
-    paginator = Paginator(posts, 8)
-    page_number = request.GET.get('page')
-    posts_paginator = paginator.get_page(page_number)
+    paginator = Paginator(posts, 3)
+    page = request.GET.get('page')
+    try:
+        posts_paginator = paginator.page(page)
+    except PageNotAnInteger:
+        posts_paginator = paginator.page(1)
+    except EmptyPage:
+        posts_paginator = paginator.page(paginator.num_pages)
 
     template = loader.get_template('profile.html')
 

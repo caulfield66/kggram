@@ -19,6 +19,7 @@ class Comment(models.Model):
         text_preview = comment.body[:90]
         sender = comment.user
 
+
     def user_del_comment_post(sender, instance, *args, **kwargs):
         like = instance
         post = like.post
