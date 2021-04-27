@@ -39,6 +39,7 @@ class Profile(models.Model):
         return self.is_staff or self.is_superuser
 
 
+
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)

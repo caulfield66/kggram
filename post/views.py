@@ -178,7 +178,7 @@ def edit(request, post_id):
 class SearchResultsView(View):
     def get(self, request):
         search_param = request.GET.get('q')
-        user = request.user
-        results = Post.objects.filter(Q(user__username=search_param) | Q(tags__title__icontains=search_param))
-        # SELECT * FROM product WHERE title ILIKE '' OR description ILIKE '';
+        print(search_param)
+        # user = request.user
+        results = User.objects.filter(Q(username=search_param))
         return render(request, 'search_results.html', locals())
