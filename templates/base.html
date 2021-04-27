@@ -34,6 +34,11 @@
         <i class="material-icons md-dark">explore</i>
         Explore
       </a>
+       <form method="get" action="{% url 'search-results' %}">
+      <input type="search" name="q"/>
+      <button type="submit">Искать</button>
+    </form>
+
       <a class="navbar-item">
         <i class="material-icons md-dark">inbox</i>
         Direct
@@ -44,23 +49,9 @@
       </a>
       <a href="{% url 'newpost' %}" class="navbar-item is-success">
         <i class="material-icons md-dark">perm_media</i>
-        <strong>Add Post</strong>
+         Add Post
       </a>
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          Settings
-        </a>
 
-        <div class="navbar-dropdown">
-          <a class="navbar-item">
-            Change Password
-          </a>
-          <a class="navbar-item">
-            Contact
-          </a>
-           <a class="navbar-item">
-            Report an issue
-          </a>
           <hr class="navbar-divider">
           <a href="{% url 'logout' %}" class="navbar-item">
            Logout

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from authy.forms import SignupForm, ChangePasswordForm, EditProfileForm
 from django.contrib.auth.models import User
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import update_session_auth_hash
 
 from authy.models import Profile
@@ -18,24 +18,25 @@ from django.urls import resolve
 
 
 # Create your views here.
+@permission_required
 def UserProfile(request, username):
-    user = get_object_or_404(User, username=username)
-    profile = Profile.objects.get(user=user)
+    username = get_object_or_404(User, username=username)
+    profile = Profile.objects.get(user=username)
     url_name = resolve(request.path).url_name
 
     if url_name == 'profile':
-        posts = Post.objects.filter(user=user).order_by('-posted')
+        posts = Post.objects.filter(user=username).order_by('-posted')
 
     else:
         posts = profile.favorites.all()
 
     # Profile info box
-    posts_count = Post.objects.filter(user=user).count()
-    following_count = Follow.objects.filter(follower=user).count()
-    followers_count = Follow.objects.filter(following=user).count()
+    posts_count = Post.objects.filter(user=username).count()
+    following_count = Follow.objects.filter(follower=username).count()
+    followers_count = Follow.objects.filter(following=username).count()
 
     # follow status
-    follow_status = Follow.objects.filter(following=user, follower=request.user).exists()
+    follow_status = Follow.objects.filter(following=username, follower=request.user).exists()
 
     # Pagination
     paginator = Paginator(posts, 8)

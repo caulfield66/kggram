@@ -1,9 +1,11 @@
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.template import loader
 from django.urls import reverse, reverse_lazy
+from django.views import View
 
 from comment.forms import CommentForm
 from comment.models import Comment
@@ -165,9 +167,18 @@ def edit(request, post_id):
         if request.method == "POST":
             post.tags = request.POST.get("tags")
             post.caption = request.POST.get("caption")
+            post.picture = request.POST.get("img")
             post.save()
             return HttpResponseRedirect("/")
         else:
             return render(request, "edit.html", {"post": post})
     except Post.DoesNotExist:
         return HttpResponseNotFound("<h2>Person not found</h2>")
+
+class SearchResultsView(View):
+    def get(self, request):
+        search_param = request.GET.get('q')
+        user = request.user
+        results = Post.objects.filter(Q(user__username=search_param) | Q(tags__title__icontains=search_param))
+        # SELECT * FROM product WHERE title ILIKE '' OR description ILIKE '';
+        return render(request, 'search_results.html', locals())
