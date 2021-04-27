@@ -53,14 +53,16 @@
               <a href="{% url 'postlike' post.id %}"><i class="material-icons md-dark">favorite</i></a>
               <p>{{ post.likes }} Likes</p>
             </div>
-            {% if user.is_authenticated and user.is_superuser and is_staff and user%}
+
+
+            {% if user.is_authenticated and user == post.user %}
             <div class="media-right">
               <a href="{% url 'postdelete' post.id %}"><i class="material-icons md-dark">clear</i></a>
               <p>Delete</p>
             </div>
             {% endif %}
 
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and user == post.user %}
             <div class="media-right">
               <a href="{% url 'postedit' post.id %}"><i class="material-icons md-dark">edit</i></a>
               <p>Redact</p>
@@ -87,7 +89,7 @@
     <div class="content">
       <p>
         {% if comment.user.profile.first_name %}
-          <strong>{{ comment.user.profile.first_name }} {{ comment.user.profile.last_name }}</strong><small> @{{ comment.user.username }}</small>
+          <strong>{{ comment.user.profile.first_name }} {{ comment.user.profile.last_name }}</strong><small><a href="{% url 'profile' post.user %}"> @{{ comment.user.username }}</a></small>
         {% else %}
           <strong>Unknown</strong>
         {% endif %}

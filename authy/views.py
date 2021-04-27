@@ -19,6 +19,7 @@ from django.urls import resolve
 
 # Create your views here.
 # @permission_required
+# @login_required
 def UserProfile(request, username):
     username = get_object_or_404(User, username=username)
     profile = Profile.objects.get(user=username)
@@ -103,7 +104,7 @@ def Signup(request):
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
             User.objects.create_user(username=username, email=email, password=password)
-            return redirect('edit-profile')
+            return redirect('index')
     else:
         form = SignupForm()
 

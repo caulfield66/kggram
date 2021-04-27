@@ -30,19 +30,13 @@
         KGGram
       </a>
 
-      <a class="navbar-item">
-        <i class="material-icons md-dark">explore</i>
-        Explore
-      </a>
+
        <form method="get" action="{% url 'search-results' %}">
       <input type="search" name="q"/>
       <button type="submit">Искать</button>
     </form>
 
-      <a class="navbar-item">
-        <i class="material-icons md-dark">inbox</i>
-        Direct
-      </a>
+
       <a href="{% url 'profile' request.user %}" class="navbar-item">
         <i class="material-icons md-dark">perm_identity</i>
         Profile

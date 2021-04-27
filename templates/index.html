@@ -32,7 +32,7 @@
             {% else %}
             <a href="{% url 'profile' post_item.user %}"><p class="title is-4">Unknown</p></a>
             {% endif %}
-          <p class="subtitle is-6">@{{ post_item.user.username }}</p>
+            <a href="{% url 'profile' post_item.user %}"> <p class="subtitle is-6">@{{ post_item.user.username }}</p></a>
             {{ post_item.caption }}
             <p>{% for tag in post_item.tags.all %}<a href="{{ tag.get_absolute_url }}">#{{ tag.title }}</a>{% endfor %}</p>
             <br>
