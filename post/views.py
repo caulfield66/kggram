@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.template import loader
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from comment.forms import CommentForm
 from comment.models import Comment
@@ -147,3 +147,27 @@ def favorite(request, post_id):
         profile.favorites.add(post)
 
     return HttpResponseRedirect(reverse('postdetails', args=[post_id]))
+
+
+def delete(request, post_id):
+    try:
+        post = Post.objects.get(id=post_id)
+        post.delete()
+        return HttpResponseRedirect("/")
+    except Post.DoesNotExist:
+        return HttpResponseNotFound("<h2>Person not found</h2>")
+
+
+def edit(request, post_id):
+    try:
+        post = Post.objects.get(id=post_id)
+
+        if request.method == "POST":
+            post.tags = request.POST.get("tags")
+            post.caption = request.POST.get("caption")
+            post.save()
+            return HttpResponseRedirect("/")
+        else:
+            return render(request, "edit.html", {"post": post})
+    except Post.DoesNotExist:
+        return HttpResponseNotFound("<h2>Person not found</h2>")
