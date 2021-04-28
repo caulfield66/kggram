@@ -196,3 +196,12 @@ def popular(request):
         'post_items': post_items,
     }
     return HttpResponse(template.render(context, request))
+
+
+class SearchResultsView(View):
+    def get(self, request):
+        search_param = request.GET.get('q')
+        print(search_param)
+        # user = request.user
+        results = User.objects.filter(Q(username=search_param))
+        return render(request, 'search_results.html', locals())

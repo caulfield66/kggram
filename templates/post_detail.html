@@ -61,6 +61,12 @@
               <p>Delete</p>
             </div>
             {% endif %}
+            {% if user.is_authenticated and user.is_superuser %}
+            <div class="media-right">
+              <a href="{% url 'postdelete' post.id %}"><i class="material-icons md-dark">clear</i></a>
+              <p>Delete</p>
+            </div>
+            {% endif %}
 
           </div>
             <div class="card-content">

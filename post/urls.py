@@ -1,4 +1,4 @@
-from post.views import index, NewPost, PostDetails, tags, like, favorite, delete, edit, SearchResultsView
+from post.views import index, NewPost, PostDetails, tags, like, favorite, delete, SearchResultsView
 
 from django.urls import path
 
