@@ -160,28 +160,6 @@ def delete(request, post_id):
         return HttpResponseNotFound("<h2>Person not found</h2>")
 
 
-def edit(request, post_id):
-    try:
-        post = Post.objects.get(id=post_id)
-
-        if request.method == "POST":
-            post.tags = request.POST.get("tags")
-            post.caption = request.POST.get("caption")
-            post.picture = request.POST.get("img")
-            post.save()
-            return HttpResponseRedirect("/")
-        else:
-            return render(request, "edit.html", {"post": post})
-    except Post.DoesNotExist:
-        return HttpResponseNotFound("<h2>Person not found</h2>")
-
-class SearchResultsView(View):
-    def get(self, request):
-        search_param = request.GET.get('q')
-        print(search_param)
-        # user = request.user
-        results = User.objects.filter(Q(username=search_param))
-        return render(request, 'search_results.html', locals())
 
 @login_required
 def old_posts(request):

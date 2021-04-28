@@ -62,13 +62,6 @@
             </div>
             {% endif %}
 
-            {% if user.is_authenticated and user == post.user %}
-            <div class="media-right">
-              <a href="{% url 'postedit' post.id %}"><i class="material-icons md-dark">edit</i></a>
-              <p>Redact</p>
-            </div>
-            {% endif %}
-
           </div>
             <div class="card-content">
 

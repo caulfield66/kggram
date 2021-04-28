@@ -10,6 +10,5 @@ urlpatterns = [
     path('<uuid:post_id>/like/', like, name='postlike'),
     path('<uuid:post_id>/favorite/', favorite, name='postfavorite'),
     path('<uuid:post_id>/delete/', delete, name='postdelete'),
-    path('<uuid:post_id>/edit/', edit, name='postedit'),
     path('post/search/', SearchResultsView.as_view(), name='search-results'),
 ]
