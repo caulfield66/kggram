@@ -18,11 +18,13 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from authy.views import UserProfile, follow
-from post.views import index
+from post.views import index, old_posts, popular
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
+    path('old/', old_posts, name='old_posts'),
+    path('popular/', popular, name='popular'),
     path('user/', include('authy.urls')),
     path('post/', include('post.urls')),
     path('<username>/', UserProfile, name='profile'),

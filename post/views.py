@@ -182,3 +182,39 @@ class SearchResultsView(View):
         # user = request.user
         results = User.objects.filter(Q(username=search_param))
         return render(request, 'search_results.html', locals())
+
+@login_required
+def old_posts(request):
+    user = request.user
+    posts = Stream.objects.filter(user=user)
+
+    group_ids = []
+
+    for post in posts:
+        group_ids.append(post.post_id)
+
+    post_items = Post.objects.filter(id__in=group_ids).all().order_by('posted')
+
+    template = loader.get_template('old_posts.html')
+    context = {
+        'post_items': post_items,
+    }
+    return HttpResponse(template.render(context, request))
+
+@login_required
+def popular(request):
+    user = request.user
+    posts = Stream.objects.filter(user=user)
+
+    group_ids = []
+
+    for post in posts:
+        group_ids.append(post.post_id)
+
+    post_items = Post.objects.filter(id__in=group_ids).all().order_by('-likes')
+
+    template = loader.get_template('old_posts.html')
+    context = {
+        'post_items': post_items,
+    }
+    return HttpResponse(template.render(context, request))
